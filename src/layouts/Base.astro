@@ -1,20 +1,24 @@
 ---
 import '@fontsource-variable/inter';
 import '@/styles/global.css';
-import Header from '@/components/Header.astro';
-import Rodape from '@/components/Rodape.astro';
-import LoginDialog from '@/components/LoginDialog.astro';
+import Logo from '@/components/Logo.astro';
+import TemaAlternar from '@/components/TemaAlternar.astro';
+import Dialogos from '@/components/Dialogos.astro';
 
 interface Props {
   title: string;
   description: string;
-  ogImage?: string;
   noindex?: boolean;
 }
 
-const { title, description, ogImage = '/og-image.png', noindex = false } = Astro.props;
+const { title, description, noindex = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const imagem = new URL(ogImage, Astro.site);
+const imagem = new URL('/og-image.png', Astro.site);
+const links = [
+  { href: '/#como-funciona', texto: 'Como funciona' },
+  { href: '/#recursos', texto: 'O que a IA faz' },
+  { href: '/#perguntas', texto: 'Perguntas' },
+];
 ---
 
 <!doctype html>
@@ -28,37 +32,35 @@ const imagem = new URL(ogImage, Astro.site);
         var d = document.documentElement;
         var m = window.matchMedia('(prefers-color-scheme: dark)');
         function salvo() {
-          try { var v = localStorage.getItem('fastinvest-tema'); return v === 'dark' || v === 'light' ? v : null; } catch (e) { return null; }
+          try { var v = localStorage.getItem('faistinvest-tema'); return v === 'dark' || v === 'light' ? v : null; } catch (e) { return null; }
         }
         d.dataset.theme = salvo() || (m.matches ? 'dark' : 'light');
-        function mudou(e) {
-          if (!salvo()) d.dataset.theme = e.matches ? 'dark' : 'light';
-        }
+        function mudou(e) { if (!salvo()) d.dataset.theme = e.matches ? 'dark' : 'light'; }
         if (m.addEventListener) m.addEventListener('change', mudou);
         else { var ml = /** @type {any} */ (m); if (ml.addListener) ml.addListener(mudou); }
         d.classList.add('js');
       })();
     </script>
-    <meta name="theme-color" content="#343a40" />
+    <meta name="theme-color" content="#f4f7f7" />
     <script is:inline>
-      if (document.documentElement.dataset.theme === 'dark') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#212529');
+      if (document.documentElement.dataset.theme === 'dark') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0b151b');
     </script>
     <title>{title}</title>
     <meta name="description" content={description} />
     {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
-    <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" sizes="48x48" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="pt_BR" />
-    <meta property="og:site_name" content="FastInvest" />
+    <meta property="og:site_name" content="FaistInvest" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={imagem} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Logotipo da FastInvest: um guepardo amarelo em corrida sobre fundo escuro" />
+    <meta property="og:image:alt" content="FaistInvest: seus investimentos, explicados em português. Projeto em desenvolvimento." />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="sitemap" href="/sitemap-index.xml" />
   </head>
@@ -68,15 +70,44 @@ const imagem = new URL(ogImage, Astro.site);
       class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
       >Pular para o conteúdo</a
     >
-    <Header atual={Astro.url.pathname} />
+    <div class="faixa-aviso">
+      <div class="miolo"><span class="faixa-ponto" aria-hidden="true"></span><span><b>Projeto em desenvolvimento.</b> Esta página é uma demonstração.</span></div>
+    </div>
+    <header class="cabecalho" data-cabecalho>
+      <div class="miolo">
+        <a href="/" aria-label="FaistInvest, página inicial"><Logo /></a>
+        <nav class="nav-links" aria-label="Principal">
+          {links.map((l) => <a class="link-nav" href={l.href}>{l.texto}</a>)}
+        </nav>
+        <div class="acoes-topo">
+          <button type="button" class="botao botao-primario botao-topo press" data-abrir="dialogo-lista">Lista de espera</button>
+          <TemaAlternar />
+          <button type="button" class="icone-botao menu-botao press js-so" aria-expanded="false" aria-controls="menu-painel" aria-label="Abrir menu" data-menu-botao>
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+          </button>
+        </div>
+      </div>
+      <div class="menu-painel" id="menu-painel" hidden>
+        <nav class="miolo" aria-label="Menu">
+          {links.map((l) => <a href={l.href}>{l.texto}</a>)}
+        </nav>
+      </div>
+    </header>
     <main id="conteudo" tabindex="-1" class="outline-none">
       <slot />
     </main>
-    <Rodape />
-    <LoginDialog />
+    <footer class="rodape">
+      <div class="miolo">
+        <a href="/" aria-label="FaistInvest, início"><Logo /></a>
+        <p>Produto em desenvolvimento pela PHMR Tech Solutions. Esta página é uma demonstração.</p>
+        <p>
+          Projeto de Paulo H. M. Rabelo ·{' '}<a class="link-texto" href="https://phmr.libertycondominio.online" rel="noopener">PHMR Tech Solutions</a>
+        </p>
+      </div>
+    </footer>
+    <Dialogos />
     <script>
       import '@/scripts/interacoes';
-      import '@/scripts/formularios';
     </script>
     <script is:inline>
       // Reveal ao rolar (docs/transicoes.md). Inline de propósito: se fosse um arquivo
@@ -90,10 +121,7 @@ const imagem = new URL(ogImage, Astro.site);
         var io = new IntersectionObserver(
           function (entradas) {
             entradas.forEach(function (e) {
-              if (e.isIntersecting) {
-                e.target.classList.add('is-shown');
-                io.unobserve(e.target);
-              }
+              if (e.isIntersecting) { e.target.classList.add('is-shown'); io.unobserve(e.target); }
             });
           },
           { threshold: 0, rootMargin: '0px 0px -8% 0px' },

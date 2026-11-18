@@ -1,0 +1,35 @@
+---
+const X = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"></path></svg>';
+---
+<dialog id="dialogo-lista" class="dialogo" aria-labelledby="dialogo-lista-titulo">
+  <div class="dialogo-corpo">
+    <div class="dialogo-topo">
+      <h2 id="dialogo-lista-titulo">Lista de espera</h2>
+      <button type="button" class="icone-botao press" data-fechar aria-label="Fechar" set:html={X}></button>
+    </div>
+    <p>O FaistInvest ainda está em desenvolvimento e não abre para uso. Esta é uma demonstração: nada do que você digitar aqui é enviado nem guardado.</p>
+    <form method="dialog">
+      <label class="rotulo" for="lista-email">E-mail</label>
+      <input class="campo" id="lista-email" name="email" type="email" required autocomplete="off" placeholder="voce@exemplo.com" />
+      <div class="dialogo-acoes">
+        <button type="submit" value="enviado" class="botao botao-primario press">Entrar na lista de espera</button>
+        <button type="button" class="botao botao-contorno press" data-fechar>Cancelar</button>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+<dialog id="dialogo-carteira" class="dialogo" aria-labelledby="dialogo-carteira-titulo">
+  <div class="dialogo-corpo">
+    <div class="dialogo-topo">
+      <h2 id="dialogo-carteira-titulo">Ainda não dá para ligar a carteira</h2>
+      <button type="button" class="icone-botao press" data-fechar aria-label="Fechar" set:html={X}></button>
+    </div>
+    <p>A ligação com a carteira está em desenvolvimento. Por enquanto, esta página só mostra como o resumo diário vai funcionar, com ativos fictícios.</p>
+    <div class="dialogo-acoes">
+      <button type="button" class="botao botao-primario press" data-fechar>Entendi</button>
+    </div>
+  </div>
+</dialog>
+
+<div id="toast" class="toast" role="status" aria-live="polite" data-visivel="false"></div>

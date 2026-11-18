@@ -1,10 +1,40 @@
 // Interações da página (docs/transicoes.md). Tudo aqui é melhoria: se este arquivo
 // não carregar, a página continua funcionando com âncoras e CSS puros.
 
+const raiz = document.documentElement;
 const reduzido = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// Curva do sistema, cubic-bezier(0.22, 1, 0.36, 1), resolvida por Newton-Raphson
-// para a rolagem por JS seguir a mesma sensação das transições em CSS.
+// ---- Tema (botão sol/lua) ----
+const botaoTema = document.querySelector<HTMLButtonElement>('[data-tema-botao]');
+if (botaoTema) {
+  const sincronizar = () => {
+    const escuro = raiz.dataset.theme === 'dark';
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', escuro ? '#0b151b' : '#f4f7f7');
+    // Rótulo dinâmico (diz a ação), sem aria-pressed, para o leitor de tela não se contradizer.
+    botaoTema.setAttribute('aria-label', (escuro ? botaoTema.dataset.rotuloClaro : botaoTema.dataset.rotuloEscuro) ?? '');
+  };
+  sincronizar();
+  new MutationObserver(sincronizar).observe(raiz, { attributes: true, attributeFilter: ['data-theme'] });
+  let temporizador: number | undefined;
+  botaoTema.addEventListener('click', () => {
+    const proximo = raiz.dataset.theme === 'dark' ? 'light' : 'dark';
+    raiz.classList.add('tema-trocando');
+    raiz.dataset.theme = proximo;
+    try {
+      localStorage.setItem('faistinvest-tema', proximo);
+    } catch {
+      /* sem armazenamento: a troca vale só nesta visita */
+    }
+    window.clearTimeout(temporizador);
+    const duracao = parseFloat(getComputedStyle(raiz).getPropertyValue('--dur-layout')) || 250;
+    temporizador = window.setTimeout(() => raiz.classList.remove('tema-trocando'), duracao + 50);
+  });
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'faistinvest-tema' && (e.newValue === 'dark' || e.newValue === 'light')) raiz.dataset.theme = e.newValue;
+  });
+}
+
+// ---- Rolagem das âncoras com a curva do sistema, cubic-bezier(0.22, 1, 0.36, 1) ----
 function curvaSuave(t: number): number {
   const x1 = 0.22, y1 = 1, x2 = 0.36, y2 = 1;
   const cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx;
@@ -31,8 +61,6 @@ function rolarAte(y: number, aoTerminar?: () => void) {
     aoTerminar?.();
     return;
   }
-  // 450 a 900 ms conforme a distância: perto é rápido, longe não se arrasta.
-  // Com movimento reduzido, a rolagem continua suave, mas curta (300 ms).
   const duracao = reduzido() ? 300 : Math.min(900, Math.max(450, Math.abs(distancia) * 0.25));
   const t0 = performance.now();
   const passo = (agora: number) => {
@@ -43,36 +71,48 @@ function rolarAte(y: number, aoTerminar?: () => void) {
   };
   rolagemAtual = requestAnimationFrame(passo);
 }
-
-// A rolagem do usuário (roda, toque, teclado) interrompe a rolagem animada.
 for (const ev of ['wheel', 'touchstart', 'keydown'] as const) {
   window.addEventListener(ev, () => cancelAnimationFrame(rolagemAtual), { passive: true });
 }
 
-// Âncoras internas: rolagem suave com a curva do sistema, foco no destino e hash na URL.
+// ---- Menu do celular (só âncoras) ----
+const botaoMenu = document.querySelector<HTMLButtonElement>('[data-menu-botao]');
+const painelMenu = document.getElementById('menu-painel');
+function menu(abrir: boolean) {
+  if (!botaoMenu || !painelMenu) return;
+  painelMenu.hidden = !abrir;
+  botaoMenu.setAttribute('aria-expanded', String(abrir));
+  botaoMenu.setAttribute('aria-label', abrir ? 'Fechar menu' : 'Abrir menu');
+}
+botaoMenu?.addEventListener('click', () => menu(painelMenu?.hidden !== false));
+painelMenu?.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    menu(false);
+    botaoMenu?.focus();
+  }
+});
+
 document.addEventListener('click', (e) => {
   if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-  const link = (e.target as Element | null)?.closest<HTMLAnchorElement>('a[href^="#"]');
+  const link = (e.target as Element | null)?.closest<HTMLAnchorElement>('a[href]');
   if (!link) return;
-  const id = decodeURIComponent(link.hash.slice(1));
+  const url = new URL(link.href, location.href);
+  if (!url.hash || url.pathname !== location.pathname || url.origin !== location.origin) return;
+  const id = decodeURIComponent(url.hash.slice(1));
   const alvo = id ? document.getElementById(id) : null;
   if (!alvo) return;
   e.preventDefault();
+  if (link.closest('#menu-painel')) menu(false);
   history.pushState(null, '', `#${id}`);
-  const ir = () => {
-    const margem = parseFloat(getComputedStyle(alvo).scrollMarginTop) || 0;
-    const y = id === 'inicio' ? 0 : alvo.getBoundingClientRect().top + window.scrollY - margem;
-    rolarAte(Math.max(0, y), () => {
-      if (!alvo.hasAttribute('tabindex')) alvo.setAttribute('tabindex', '-1');
-      alvo.focus({ preventScroll: true });
-    });
-  };
-  // Link dentro do menu lateral: espera o menu fechar (150 ms) e soltar a trava de rolagem.
-  if (link.closest('[data-slot="sheet-content"]')) setTimeout(ir, 180);
-  else ir();
+  const margem = parseFloat(getComputedStyle(alvo).scrollMarginTop) || 0;
+  const y = alvo.getBoundingClientRect().top + window.scrollY - margem;
+  rolarAte(Math.max(0, y), () => {
+    if (!alvo.hasAttribute('tabindex')) alvo.setAttribute('tabindex', '-1');
+    alvo.focus({ preventScroll: true });
+  });
 });
 
-// Cabeçalho: borda e fundo aparecem quando a página sai do topo.
+// ---- Cabeçalho: borda aparece quando a página sai do topo ----
 const cabecalho = document.querySelector<HTMLElement>('[data-cabecalho]');
 if (cabecalho) {
   const marcar = () => (cabecalho.dataset.rolado = String(window.scrollY > 8));
@@ -80,28 +120,43 @@ if (cabecalho) {
   window.addEventListener('scroll', marcar, { passive: true });
 }
 
-// Menu "Notícias" (<details>): fecha ao clicar fora, ao sair com Tab e com Esc.
-const noticias = document.querySelector<HTMLDetailsElement>('[data-menu-noticias]');
-if (noticias) {
-  document.addEventListener('click', (e) => {
-    if (noticias.open && !noticias.contains(e.target as Node)) noticias.open = false;
-  });
-  noticias.addEventListener('focusout', (e) => {
-    const para = (e as FocusEvent).relatedTarget as Node | null;
-    if (noticias.open && para && !noticias.contains(para)) noticias.open = false;
-  });
-  noticias.addEventListener('keydown', (e) => {
-    if ((e as KeyboardEvent).key === 'Escape' && noticias.open) {
-      noticias.open = false;
-      noticias.querySelector<HTMLElement>('summary')?.focus();
-    }
-  });
+// ---- Diálogos nativos: devolvem o foco a quem abriu; fecham com Esc, X e clique no fundo ----
+const origens = new Map<HTMLDialogElement, HTMLElement>();
+const toast = document.getElementById('toast');
+let tempoToast: number | undefined;
+function avisar(texto: string) {
+  if (!toast) return;
+  toast.textContent = texto;
+  toast.dataset.visivel = 'true';
+  window.clearTimeout(tempoToast);
+  tempoToast = window.setTimeout(() => (toast.dataset.visivel = 'false'), 6000);
 }
 
-// Botões que abrem o login de demonstração (diálogo nativo).
+document.querySelectorAll<HTMLDialogElement>('dialog.dialogo').forEach((dlg) => {
+  dlg.addEventListener('click', (e) => {
+    // Só o fundo (o próprio <dialog>): o conteúdo tem padding num div interno.
+    if (e.target === dlg) dlg.close();
+    else if ((e.target as Element).closest('[data-fechar]')) dlg.close();
+  });
+  dlg.addEventListener('close', () => {
+    const origem = origens.get(dlg);
+    origens.delete(dlg);
+    origem?.focus();
+    if (dlg.returnValue === 'enviado') {
+      avisar('Nada foi enviado: a lista de espera ainda não existe. Quando o produto abrir, a divulgação será feita nesta página.');
+      const form = dlg.querySelector('form');
+      form?.reset();
+    }
+    dlg.returnValue = '';
+  });
+});
+
 document.addEventListener('click', (e) => {
-  const gatilho = (e.target as Element | null)?.closest<HTMLElement>('[data-abrir-login]');
+  const gatilho = (e.target as Element | null)?.closest<HTMLElement>('[data-abrir]');
   if (!gatilho) return;
-  const dlg = document.getElementById('dialogo-login') as HTMLDialogElement | null;
-  if (dlg && !dlg.open) dlg.showModal();
+  const dlg = document.getElementById(gatilho.dataset.abrir ?? '') as HTMLDialogElement | null;
+  if (dlg && !dlg.open) {
+    origens.set(dlg, gatilho);
+    dlg.showModal();
+  }
 });

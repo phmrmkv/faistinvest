@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://fastinvest.libertycondominio.online/sitemap-index.xml
+Sitemap: https://faistinvest.libertycondominio.online/sitemap-index.xml

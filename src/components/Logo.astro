@@ -1,0 +1,16 @@
+---
+// Logo tipográfico PROVISÓRIO: marca "F" com um traço de marca-texto + nome com o "ai" destacado.
+interface Props { class?: string }
+const { class: classe = '' } = Astro.props;
+---
+<span class:list={['logo', classe]}>
+  <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+    <rect width="64" height="64" rx="14" fill="#0b5560"></rect>
+    <rect x="19" y="11" width="8" height="35" fill="#fff"></rect>
+    <rect x="19" y="11" width="27" height="8" fill="#fff"></rect>
+    <rect x="19" y="26" width="19" height="7" fill="#fff"></rect>
+    <rect x="15" y="50" width="34" height="5" rx="2.5" fill="#f7d54a"></rect>
+  </svg>
+  <span aria-hidden="true">F<span class="logo-ai">ai</span>stInvest</span>
+  <span class="sr-only">FaistInvest</span>
+</span>

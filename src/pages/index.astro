@@ -1,112 +1,183 @@
 ---
-import { Picture } from 'astro:assets';
 import Base from '@/layouts/Base.astro';
-import Carrossel from '@/components/Carrossel.astro';
-import Faq from '@/components/Faq.astro';
-import Titulo from '@/components/Titulo.astro';
-import fundo from '@/assets/bg-quote.jpg';
-import investing from '@/assets/icones/investing.svg?raw';
-import investment from '@/assets/icones/investment.svg?raw';
-import moneyManagement from '@/assets/icones/money-management.svg?raw';
-import modern from '@/assets/icones/modern.svg?raw';
-import returnOfInvestment from '@/assets/icones/return-of-investment.svg?raw';
-import saveMoney from '@/assets/icones/save-money.svg?raw';
 
-const vantagens = [
-  { icone: investing, titulo: 'Dinheiro', texto: 'Acompanhe seus aportes e o saldo da carteira em um só lugar.' },
-  { icone: investment, titulo: 'Mais Dinheiro', texto: 'Veja como os seus investimentos evoluem ao longo do tempo.' },
-  { icone: moneyManagement, titulo: 'Ações', texto: 'Notícias de bolsas como Bovespa, Nasdaq e NY reunidas para você.' },
-  { icone: modern, titulo: 'Viver de Renda', texto: 'Conteúdo para quem quer planejar renda com calma e informação.' },
-  { icone: returnOfInvestment, titulo: 'Relatórios', texto: 'Relatórios simples para entender o que mudou na sua carteira.' },
-  { icone: saveMoney, titulo: 'Controle', texto: 'Defina metas e acompanhe cada uma delas sem planilhas complicadas.' },
+const faq = [
+  {
+    p: 'O FaistInvest recomenda o que comprar ou vender?',
+    r: 'Não. Ele resume notícias e explica o que aconteceu com os ativos que você já acompanha. A decisão é sempre sua, e nada aqui é recomendação de investimento.',
+  },
+  {
+    p: 'Já dá para usar?',
+    r: 'Ainda não. O produto está em desenvolvimento e esta página é uma demonstração: os ativos, as notícias e as respostas mostrados aqui são fictícios, escritos para ilustrar como vai funcionar.',
+  },
+  {
+    p: 'Como a IA decide o que é importante?',
+    r: 'Ela olha as notícias ligadas a cada ativo da carteira e separa o que pode afetar o preço ou o seu bolso, como resultado da empresa, dividendo ou mudança de juros, do que é só ruído. Cada resumo vai indicar de onde veio a informação.',
+  },
+  {
+    p: 'A IA pode errar?',
+    r: 'Pode. Resumos automáticos podem ter erro ou deixar algo de fora, por isso cada explicação vai trazer a fonte para você conferir. Em caso de dúvida, vale a pena ler a notícia original.',
+  },
+  {
+    p: 'Precisa dar acesso à minha conta na corretora?',
+    r: 'A ideia é que a carteira seja ligada só para leitura, sem permissão para movimentar nada. Como o produto está em desenvolvimento, esse desenho ainda pode mudar e será explicado com detalhe antes de abrir.',
+  },
 ];
+
+const seta = '<svg class="detalhe-seta" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"></path></svg>';
 ---
-
 <Base
-  title="FastInvest | Notícias e planos para quem investe"
-  description="FastInvest: plataforma de demonstração com notícias da Bovespa, Nasdaq e NY, planos e relatórios para acompanhar seus investimentos. Projeto de estudo, sem serviço real."
+  title="FaistInvest: seus investimentos, explicados em português"
+  description="Assistente com IA, em desenvolvimento, que resume as notícias de cada ativo da sua carteira e explica por que algo subiu ou caiu. Não é recomendação de investimento."
 >
-  <!--Carrossel + chamada-->
-  <section class="bg-nav text-sobre-nav" aria-labelledby="plataforma">
-    <div class="grid lg:grid-cols-12">
-      <div class="lg:col-span-7">
-        <Carrossel />
-      </div>
-      <div class="p-6 sm:p-8 lg:col-span-5 lg:self-center">
-        <h1 id="plataforma" class="text-[2.25rem] leading-[1.1] font-semibold tracking-tight sm:text-5xl">
-          Notícias e planos para acompanhar seus investimentos
-        </h1>
-        <p class="mt-4 text-xl text-sobre-nav-suave">
-          Reúna notícias das bolsas, relatórios e planos em um só lugar com a FastInvest.
+  <section class="hero" id="inicio">
+    <div class="miolo hero-grade">
+      <div>
+        <h1 class="titulo-hero">Seus investimentos, explicados em português.</h1>
+        <p class="lide" style="margin-top:1.5rem">
+          O FaistInvest lê as notícias que afetam cada ativo da sua carteira e conta, em linguagem simples, o que aconteceu e por quê.
+          E avisa quando vem algo importante pela frente.
         </p>
-        <form class="mt-6" method="dialog" data-form-demo data-sucesso="Demonstração: nada foi enviado nem guardado. Para continuar o exemplo, abra a página de inscrição.">
-          <label for="heroEmail" class="rotulo">Email</label>
-          <div class="flex flex-col gap-3 sm:flex-row">
-            <input
-              class="campo"
-              type="email"
-              id="heroEmail"
-              name="email"
-              placeholder="Email"
-              required
-              autocomplete="off"
-              aria-describedby="erro-heroEmail"
-            />
-            <button type="submit" class="botao botao-amarelo botao-grande press shrink-0">Inscreva-se</button>
+        <div class="hero-acoes">
+          <button type="button" class="botao botao-primario botao-grande press" data-abrir="dialogo-lista">Entrar na lista de espera</button>
+          <a class="botao botao-contorno botao-grande press" href="#exemplo">Ver um resumo de exemplo</a>
+        </div>
+        <p class="hero-nota">Não recomenda compra nem venda. Não é recomendação de investimento.</p>
+      </div>
+
+      <div id="exemplo" data-reveal>
+        <article class="resumo" aria-labelledby="resumo-titulo">
+          <div class="resumo-topo">
+            <h3 id="resumo-titulo">Resumo de hoje</h3>
+            <span class="selo-exemplo">Exemplo, carteira fictícia</span>
           </div>
-          <p class="erro-campo !text-[#ff9aa2]" id="erro-heroEmail"></p>
-          <div class="estado-envio !bg-[#212529] !text-white" role="status" tabindex="-1" hidden data-estado></div>
-        </form>
+          <ul>
+            <li class="resumo-item">
+              <div class="ativo">
+                <span class="ticker">ALFA3</span><span class="ficticio">fictício</span>
+                <span class="estado estado-queda">
+                  <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M1 3h10L6 10z" fill="currentColor"></path></svg>Em queda
+                </span>
+              </div>
+              <p>A varejista divulgou um resultado abaixo do esperado no trimestre. A queda de hoje vem daí: <mark class="marca" style="--m:0">a margem menor</mark> preocupou quem acompanha a empresa.</p>
+            </li>
+            <li class="resumo-item">
+              <div class="ativo">
+                <span class="ticker">BRAV4</span><span class="ficticio">fictício</span>
+                <span class="estado estado-alta">
+                  <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M1 9h10L6 2z" fill="currentColor"></path></svg>Em alta
+                </span>
+              </div>
+              <p>A empresa anunciou <mark class="marca" style="--m:1">dividendos extras</mark> para este ano. Quem tem a ação até a data de corte recebe.</p>
+            </li>
+            <li class="resumo-item">
+              <div class="ativo">
+                <span class="ticker">MUNDI11</span><span class="ficticio">fictício</span>
+                <span class="estado estado-neutro">Sem novidade</span>
+              </div>
+              <p>Nenhuma notícia relevante para este fundo imobiliário hoje.</p>
+            </li>
+          </ul>
+          <div class="resumo-aviso">
+            <b>Evento importante amanhã</b>
+            Reunião do Copom sobre a taxa de juros. <mark class="marca" style="--m:2">Juros mais altos pesam</mark> sobre fundos imobiliários e ações de varejo da carteira.
+          </div>
+          <p class="resumo-rodape">Exemplo escrito para esta página, sem dados reais de mercado. Não é recomendação de investimento.</p>
+        </article>
       </div>
     </div>
   </section>
 
-  <!--Vantagens-->
-  <section class="py-6 text-center" aria-labelledby="vantagens">
-    <div class="mx-auto max-w-6xl px-4 pb-10 sm:px-6">
-      <Titulo sobre="Tudo de melhor para você" nivel={2}><span id="vantagens">Aproveite as Vantagens</span></Titulo>
-      <ul class="grid gap-x-8 gap-y-10 md:grid-cols-2 xl:grid-cols-3">
-        {vantagens.map((v, i) => (
-          <li data-reveal style={`--i: ${i % 3}`}>
-            <div class="vantagem-icone mx-auto" aria-hidden="true" set:html={v.icone} />
-            <h3 class="mt-3 text-2xl font-semibold">{v.titulo}</h3>
-            <p class="mx-auto mt-2 max-w-xs text-muted-foreground">{v.texto}</p>
+  <section class="secao" id="como-funciona" style="border-top:1px solid var(--border)">
+    <div class="miolo">
+      <h2 class="titulo-secao" data-reveal>Como vai funcionar</h2>
+      <p class="lide" style="margin-top:1rem;--i:1" data-reveal>Três etapas, da carteira ao resumo.</p>
+      <ol class="passos">
+        <li class="passo" data-reveal>
+          <div>
+            <h3>Você liga a carteira<span class="etiqueta-dev">em desenvolvimento</span></h3>
+            <p>Informa os ativos que tem, em modo leitura. O FaistInvest só precisa saber o que você acompanha.</p>
+            <button type="button" class="botao botao-contorno press" data-abrir="dialogo-carteira">Ligar minha carteira</button>
+          </div>
+        </li>
+        <li class="passo" data-reveal style="--i:1">
+          <div>
+            <h3>A IA acompanha as notícias de cada ativo</h3>
+            <p>Ela lê o que saiu sobre as empresas, os fundos e os indicadores da sua carteira e separa o que pode afetar você.</p>
+          </div>
+        </li>
+        <li class="passo" data-reveal style="--i:2">
+          <div>
+            <h3>Você recebe o resumo e os avisos</h3>
+            <p>Um texto curto por dia, com o que mexeu em cada ativo e por quê. Quando surge algo grande, como um resultado ou uma mudança de juros, vem um aviso à parte.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="secao" id="recursos" style="border-top:1px solid var(--border)">
+    <div class="miolo">
+      <h2 class="titulo-secao" data-reveal>O que a IA faz por você</h2>
+      <div class="recursos-grade">
+        <ul class="recursos" data-reveal>
+          <li class="recurso">
+            <h3>Resume as notícias de cada ativo</h3>
+            <p>Em vez de dezenas de manchetes, um parágrafo por ativo com o que realmente mudou.</p>
           </li>
-        ))}
-      </ul>
-      <a href="/planos/" class="botao botao-amarelo botao-grande press mt-10">Comprar Plano</a>
+          <li class="recurso">
+            <h3>Explica por que subiu ou caiu</h3>
+            <p>Sem jargão: o motivo do movimento do dia, dito como você explicaria a um amigo.</p>
+          </li>
+          <li class="recurso">
+            <h3>Avisa dos eventos importantes</h3>
+            <p>Resultado de empresa, pagamento de dividendo e mudança de juros chegam antes de acontecer, não depois.</p>
+          </li>
+          <li class="recurso">
+            <h3>Responde perguntas sobre a sua carteira</h3>
+            <p>Você pergunta, a IA responde com base nas notícias e indica de onde tirou a informação.</p>
+          </li>
+        </ul>
+
+        <div class="conversa" data-reveal style="--i:1" role="group" aria-label="Exemplo de conversa, ilustrativo">
+          <div class="conversa-titulo"><span>Pergunte à IA</span><span class="selo-exemplo">Exemplo</span></div>
+          <div class="balao balao-eu">Por que ALFA3 caiu hoje?</div>
+          <div class="balao balao-ia">
+            <p>Porque a empresa divulgou resultado abaixo do esperado e a <mark class="marca">margem ficou menor</mark> que a do trimestre anterior.</p>
+            <p>Isso costuma pesar no papel no dia seguinte ao balanço. Fonte: comunicado da empresa (fictício).</p>
+          </div>
+          <p class="conversa-nota">Conversa de exemplo, com ativo fictício. A IA explica o que aconteceu; não diz se você deve comprar ou vender.</p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!--Citação sobre foto-->
-  <section class="citacao px-4 py-16 sm:px-8 md:py-24">
-    <Picture
-      src={fundo}
-      alt=""
-      formats={['avif', 'webp']}
-      fallbackFormat="jpg"
-      widths={[640, 1024, 1600]}
-      sizes="100vw"
-      quality={45}
-      loading="lazy"
-    />
-    <blockquote class="mx-auto max-w-4xl text-center">
-      <p class="text-3xl leading-tight font-medium italic sm:text-5xl">
-        “Você não precisa ser mais esperto que as outras pessoas, você só precisa ser mais paciente que elas.”
-      </p>
-      <footer class="mt-6 text-lg">Warren Buffett</footer>
-    </blockquote>
+  <section class="limite secao" aria-labelledby="limite-titulo">
+    <div class="miolo">
+      <h2 id="limite-titulo" data-reveal>Explica o que aconteceu. Não diz o que você deve fazer.</h2>
+      <p data-reveal style="--i:1">O FaistInvest não recomenda compra nem venda de nenhum ativo. Ele é uma ferramenta para você entender o noticiário, e a decisão continua sendo sua. Nada nesta página é recomendação de investimento.</p>
+    </div>
   </section>
 
-  <!--Dúvidas-->
-  <section class="bg-muted pt-6 pb-10" aria-labelledby="duvidas">
-    <div class="mx-auto max-w-6xl px-4 sm:px-6">
-      <Titulo sobre="Ainda está com dúvidas?" nivel={2}><span id="duvidas">Perguntas Frequentes</span></Titulo>
-      <Faq />
-      <div class="mt-8 text-center">
-        <p class="mb-2 text-sm tracking-wide text-muted-foreground uppercase">Fale conosco para mais dúvidas</p>
-        <a class="botao botao-amarelo botao-grande press" href="/contato/">Entre em Contato</a>
+  <section class="secao" id="perguntas">
+    <div class="miolo">
+      <h2 class="titulo-secao" data-reveal>Perguntas frequentes</h2>
+      <div class="detalhes-lista" data-reveal style="--i:1">
+        {faq.map((f) => (
+          <details class="detalhe">
+            <summary class="detalhe-titulo"><span>{f.p}</span><Fragment set:html={seta} /></summary>
+            <div class="detalhe-corpo">{f.r}</div>
+          </details>
+        ))}
       </div>
+    </div>
+  </section>
+
+  <section class="chamada secao">
+    <div class="miolo">
+      <h2 class="titulo-secao" data-reveal>Quer saber quando abrir?</h2>
+      <p class="lide" data-reveal style="--i:1">O produto ainda está em desenvolvimento. A lista de espera abaixo é só uma demonstração e não guarda nada.</p>
+      <button type="button" class="botao botao-primario botao-grande press" data-abrir="dialogo-lista" data-reveal style="--i:2">Entrar na lista de espera</button>
     </div>
   </section>
 </Base>
