@@ -9,7 +9,7 @@ const botaoTema = document.querySelector<HTMLButtonElement>('[data-tema-botao]')
 if (botaoTema) {
   const sincronizar = () => {
     const escuro = raiz.dataset.theme === 'dark';
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', escuro ? '#0b151b' : '#f4f7f7');
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', escuro ? '#121116' : '#f5f5f7');
     // Rótulo dinâmico (diz a ação), sem aria-pressed, para o leitor de tela não se contradizer.
     botaoTema.setAttribute('aria-label', (escuro ? botaoTema.dataset.rotuloClaro : botaoTema.dataset.rotuloEscuro) ?? '');
   };
@@ -80,11 +80,11 @@ const botaoMenu = document.querySelector<HTMLButtonElement>('[data-menu-botao]')
 const painelMenu = document.getElementById('menu-painel');
 function menu(abrir: boolean) {
   if (!botaoMenu || !painelMenu) return;
-  painelMenu.hidden = !abrir;
+  painelMenu.toggleAttribute('data-aberto', abrir);
   botaoMenu.setAttribute('aria-expanded', String(abrir));
   botaoMenu.setAttribute('aria-label', abrir ? 'Fechar menu' : 'Abrir menu');
 }
-botaoMenu?.addEventListener('click', () => menu(painelMenu?.hidden !== false));
+botaoMenu?.addEventListener('click', () => menu(!painelMenu?.hasAttribute('data-aberto')));
 painelMenu?.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     menu(false);

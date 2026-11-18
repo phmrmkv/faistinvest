@@ -6,51 +6,57 @@
    que só aparece onde a IA destaca o que importa. O marca-texto é a única ousadia da página. */
 :root {
   color-scheme: light;
-  --radius: 0.5rem;
 
-  --background: #f4f7f7;
+  --background: #f5f5f7;
   --surface: #ffffff;
-  --foreground: #11202a;
-  --muted-foreground: #475963;
-  --border: #d2dbdf;
-  --input: #66777f;
-  --ring: #0b5560;
-  --link: #0b5560;
-  --primary: #0b5560;
-  --primary-hover: #08434c;
+  --foreground: #17161d;
+  --muted-foreground: #53525c;
+  --border: #d9d8de;
+  --input: #6c6b76;
+  --ring: #4338ca;
+  --link: #4338ca;
+  --primary: #17161d;
+  --primary-hover: #35343f;
   --primary-foreground: #ffffff;
   --marker: #f7d54a;
-  --marker-ink: #11202a;
+  --marker-ink: #17161d;
+  --marca-fundo: #f7d54a;
+  --marca-texto: #17161d;
+  --logo-fundo: #17161d;
+  --logo-letra: #ffffff;
   --faixa: #f7d54a;
-  --faixa-ink: #11202a;
+  --faixa-ink: #17161d;
   --alta: #1c6b3a;
   --queda: #a02f2f;
-  --neutro: #475963;
+  --neutro: #53525c;
 }
 
 :root[data-theme="dark"] {
   color-scheme: dark;
 
-  --background: #0b151b;
-  --surface: #121f27;
-  --foreground: #e7eef1;
-  --muted-foreground: #9fb0ba;
-  --border: #243541;
-  --input: #6f8794;
-  --ring: #5bd0d6;
-  --link: #6fd0d5;
-  --primary: #5bd0d6;
-  --primary-hover: #7fdde2;
-  --primary-foreground: #06242a;
+  --background: #121116;
+  --surface: #1b1a21;
+  --foreground: #ececf1;
+  --muted-foreground: #a9a8b4;
+  --border: #2d2c36;
+  --input: #7d7c8a;
+  --ring: #b9b4ff;
+  --link: #b9b4ff;
+  --primary: #ececf1;
+  --primary-hover: #ffffff;
+  --primary-foreground: #17161d;
+  --marca-fundo: #6e5c0c;
+  --marca-texto: #ececf1;
+  --logo-fundo: #ececf1;
+  --logo-letra: #17161d;
   --alta: #6fd08f;
   --queda: #ff9a9a;
-  --neutro: #9fb0ba;
+  --neutro: #a9a8b4;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-border: var(--border);
   --color-ring: var(--ring);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
@@ -58,7 +64,6 @@
 }
 
 @layer base {
-  * { @apply border-border; }
   body { @apply bg-background text-foreground font-sans antialiased; }
   :focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; }
 }
@@ -143,6 +148,8 @@ body { text-rendering: optimizeLegibility; }
 
 .logo { display: inline-flex; align-items: center; gap: 0.625rem; min-height: 2.75rem; color: var(--foreground); font-weight: 700; font-size: 1.25rem; letter-spacing: -0.03em; }
 .logo svg { width: 2rem; height: 2rem; flex: none; }
+.logo-m-fundo { fill: var(--logo-fundo); }
+.logo-m-letra { fill: var(--logo-letra); }
 .logo-ai { background: var(--marker); color: var(--marker-ink); padding: 0 0.08em; border-radius: 0.2em; }
 
 .nav-links { display: none; align-items: center; gap: 0.25rem; }
@@ -160,7 +167,7 @@ body { text-rendering: optimizeLegibility; }
 @media (min-width: 34rem) { .acoes-topo .botao-topo { display: inline-flex; } }
 
 .menu-painel { border-top: 1px solid var(--border); background: var(--background); }
-.menu-painel[hidden] { display: none; }
+.js .menu-painel:not([data-aberto]) { display: none; }
 .menu-painel nav { display: flex; flex-direction: column; padding-block: 0.5rem; }
 .menu-painel a { display: flex; align-items: center; min-height: 3rem; font-size: 1.0625rem; border-bottom: 1px solid var(--border); }
 .menu-painel a:last-child { border-bottom: 0; }
@@ -193,22 +200,24 @@ body { text-rendering: optimizeLegibility; }
 .titulo-hero { font-size: clamp(2.5rem, 1.6rem + 4.2vw, 4.75rem); line-height: 1.02; letter-spacing: -0.04em; font-weight: 750; text-wrap: balance; }
 .titulo-secao { font-size: clamp(1.875rem, 1.35rem + 2.2vw, 3rem); line-height: 1.08; letter-spacing: -0.03em; font-weight: 700; text-wrap: balance; }
 .lide { font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem); line-height: 1.55; color: var(--muted-foreground); max-width: 38rem; text-wrap: pretty; }
-.texto-suave { color: var(--muted-foreground); }
 
-/* Marca-texto: a ousadia única */
+/* Marca-texto: a ousadia única. O amarelo é um ::before animado por transform (scaleX) atrás do texto;
+   a cor do texto lê bem sobre o fundo da página e sobre o amarelo (no escuro, o amarelo é um ouro fechado). */
 .marca {
-  background-image: linear-gradient(var(--marker), var(--marker));
-  background-repeat: no-repeat; background-position: 0 0; background-size: 100% 100%;
-  color: var(--marker-ink); padding: 0.04em 0.2em; margin-inline: -0.1em;
-  -webkit-box-decoration-break: clone; box-decoration-break: clone; border-radius: 0.15em;
+  position: relative; isolation: isolate; display: inline-block; padding: 0.04em 0.25em; margin-inline: -0.1em;
+  color: var(--marca-texto); background: transparent;
+}
+.marca::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; background: var(--marca-fundo); border-radius: 0.15em;
+  transform-origin: left center;
 }
 @media (prefers-reduced-motion: no-preference) {
-  .js [data-reveal] .marca {
-    background-size: 0% 100%;
-    transition: background-size 700ms var(--ease-out-soft);
-    transition-delay: calc(450ms + var(--m, 0) * 260ms);
+  .js [data-reveal] .marca::before {
+    transform: scaleX(0);
+    transition: transform var(--dur-enter-text) var(--ease-out-soft);
+    transition-delay: calc(var(--dur-enter-text) + var(--m, 0) * var(--dur-stagger) * 6);
   }
-  .js [data-reveal].is-shown .marca { background-size: 100% 100%; }
+  .js [data-reveal].is-shown .marca::before { transform: none; }
 }
 
 /* Hero */
@@ -225,7 +234,7 @@ body { text-rendering: optimizeLegibility; }
 }
 :root[data-theme="dark"] .resumo { box-shadow: 0 18px 40px -24px rgb(0 0 0 / 0.7); }
 .resumo-topo { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding: 0.875rem 1.25rem; border-bottom: 1px solid var(--border); }
-.resumo-topo h3 { font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; }
+.resumo-topo h2 { font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; }
 .selo-exemplo { display: inline-flex; align-items: center; min-height: 1.5rem; padding: 0 0.5rem; border: 1px dashed var(--input); border-radius: 0.25rem; font-size: 0.8125rem; color: var(--muted-foreground); white-space: nowrap; }
 .resumo ul { list-style: none; margin: 0; padding: 0; }
 .resumo-item { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); }
