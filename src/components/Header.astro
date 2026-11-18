@@ -54,12 +54,14 @@ const pagina = (href: string) => (atual === href ? 'page' : undefined);
 
     <div class="flex items-center gap-1">
       <TemaAlternar rotuloEscuro="Mudar para o tema escuro" rotuloClaro="Mudar para o tema claro" />
+      <div class="js-so">
       <MenuMobile
         client:media="(max-width: 767px)"
         atual={atual}
         noticias={noticias}
         links={linksPrincipais}
       />
+      </div>
     </div>
 
     <!-- Sem JavaScript no celular não há menu lateral: os links aparecem em linha -->

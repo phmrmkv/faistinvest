@@ -37,7 +37,7 @@ const dados: Campo[] = [
     </p>
     <noscript><p class="aviso-demo mb-6">Sem JavaScript este formulário de demonstração não faz nada.</p></noscript>
 
-    <form method="post" action="#" data-form-demo data-sucesso="Demonstração: a inscrição não foi enviada nem guardada, e nenhum plano foi contratado. Os campos foram limpos.">
+    <form method="dialog" data-form-demo data-sucesso="Demonstração: a inscrição não foi enviada nem guardada, e nenhum plano foi contratado. Os campos foram limpos.">
       <div class="grid grid-cols-12 gap-x-4 gap-y-1">
         {dados.map((c) => (
           <div class={`col-span-12 ${c.cls}`}>
@@ -89,7 +89,7 @@ const dados: Campo[] = [
               </select>
             </div>
             <div class="col-span-12 md:col-span-6">
-              <label class="rotulo" for="inputNumeroCartao">Número no cartão</label>
+              <label class="rotulo" for="inputNumeroCartao">Número do cartão</label>
               <input class="campo" type="text" id="inputNumeroCartao" name="numeroCartao" placeholder="0000 0000 0000 0000" required inputmode="numeric" pattern="[0-9 ]{13,19}" data-erro-padrao="Use de 13 a 19 números." autocomplete="off" aria-describedby="erro-inputNumeroCartao" />
               <p class="erro-campo" id="erro-inputNumeroCartao"></p>
             </div>

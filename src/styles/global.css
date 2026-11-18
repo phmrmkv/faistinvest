@@ -191,7 +191,8 @@ body { text-rendering: optimizeLegibility; }
   transition: border-color var(--dur-header) var(--ease-out-soft);
 }
 .cabecalho[data-rolado="true"] { border-bottom-color: var(--nav-borda); }
-.cabecalho :focus-visible, .rodape :focus-visible { outline-color: #ffc107; }
+.cabecalho :focus-visible, .rodape :focus-visible, .bg-nav :focus-visible, .carrossel :focus-visible { outline-color: #ffc107; }
+.bg-nav .campo:focus-visible { outline: 2px solid #ffc107; outline-offset: 2px; box-shadow: none; }
 
 .link-nav {
   display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 0.875rem; border-radius: 0.5rem;
@@ -364,7 +365,7 @@ html:not(.js) .pagamento-painel { display: block; }
 
 /* Diálogo nativo (login de demonstração) */
 dialog.dialogo {
-  margin: auto; width: min(28rem, calc(100% - 2rem)); padding: 1.5rem; border: 1px solid var(--border); border-radius: 0.75rem;
+  margin: auto; width: min(28rem, calc(100% - 2rem)); padding: 0; border: 1px solid var(--border); border-radius: 0.75rem;
   background: var(--background); color: var(--foreground); box-shadow: 0 20px 50px rgb(0 0 0 / 0.35);
   opacity: 0; scale: var(--modal-scale);
   transition: opacity var(--dur-close) var(--ease-out-soft), scale var(--dur-close) var(--ease-out-soft), overlay var(--dur-close) allow-discrete, display var(--dur-close) allow-discrete;

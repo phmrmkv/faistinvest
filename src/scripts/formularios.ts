@@ -117,7 +117,7 @@ const dlg = document.getElementById('dialogo-login') as HTMLDialogElement | null
 if (dlg) {
   dlg.querySelector('[data-fechar-dialogo]')?.addEventListener('click', () => dlg.close());
   dlg.addEventListener('click', (e) => {
-    if (e.target === dlg) dlg.close();
+    if (e.target === dlg) dlg.close(); // o padding vive no div interno, então só o fundo (::backdrop) chega aqui
   });
   dlg.addEventListener('close', () => {
     const f = dlg.querySelector('form');

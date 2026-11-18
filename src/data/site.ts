@@ -32,9 +32,9 @@ export const linksRodapeSobre: Pagina[] = [
 
 // Dados de contato FALSOS, mantidos do site original e marcados como demonstração.
 export const contatoDemo = {
-  email: 'contato@fastinvest.com.br',
+  email: 'contato@exemplo.com.br',
   telefone: '11 99999-9999',
-  horario: 'De Seg. à Sex. das 8h às 18h',
+  horario: 'De seg. a sex., das 8h às 18h',
   escritorios: ['São Paulo', 'New York', 'Dublin'],
   redes: ['Facebook', 'Twitter', 'Youtube'],
 };
