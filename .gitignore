@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.astro/
+.env*
+.DS_Store
+
+# cópias de trabalho das frentes (git worktree)
+.claude/worktrees/

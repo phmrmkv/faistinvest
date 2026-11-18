@@ -1,0 +1,48 @@
+---
+import { linksRodapePaginas, linksRodapeSobre, noticias, contatoDemo, SITE } from '@/data/site';
+---
+
+<footer class="rodape bg-nav text-sobre-nav">
+  <div class="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+    <div class="grid grid-cols-2 gap-x-6 gap-y-8 md:grid-cols-12">
+      <div class="md:col-span-2">
+        <h2 class="mb-2 border-b border-primary pb-1 text-sm font-semibold tracking-wide uppercase">Notícias</h2>
+        <ul>
+          {noticias.map((l) => <li><a class="link-rodape" href={l.href}>{l.texto}</a></li>)}
+        </ul>
+      </div>
+      <div class="md:col-span-2">
+        <h2 class="mb-2 border-b border-primary pb-1 text-sm font-semibold tracking-wide uppercase">Páginas</h2>
+        <ul>
+          {linksRodapePaginas.map((l) => <li><a class="link-rodape" href={l.href}>{l.texto}</a></li>)}
+        </ul>
+      </div>
+      <div class="md:col-span-3">
+        <h2 class="mb-2 border-b border-primary pb-1 text-sm font-semibold tracking-wide uppercase">Sobre nós</h2>
+        <ul>
+          {linksRodapeSobre.map((l) => <li><a class="link-rodape" href={l.href}>{l.texto}</a></li>)}
+        </ul>
+      </div>
+      <div class="col-span-2 md:col-span-5">
+        <h2 class="mb-2 border-b border-primary pb-1 text-sm font-semibold tracking-wide uppercase">Dados de contato (demonstração)</h2>
+        <ul class="text-sobre-nav-suave">
+          <li>{contatoDemo.email}</li>
+          <li>{contatoDemo.telefone}</li>
+          <li>{contatoDemo.horario}</li>
+          <li>Escritórios de exemplo: {contatoDemo.escritorios.join(', ')}</li>
+          <li>Redes sociais: {contatoDemo.redes.join(', ')} (perfis de exemplo, ainda não existem)</li>
+        </ul>
+        <p class="mt-3 text-sm text-sobre-nav-suave">
+          Site de demonstração de estudo, sem atendimento real. Nada que você digitar aqui é enviado.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="border-t border-primary py-4 text-center text-sm">
+    <p class="px-4">Fast<span class="text-destaque-nav">I</span>nvest <span class="text-destaque-nav">©</span> 2020 - Alguns direitos reservados.</p>
+    <p class="mt-1 px-4 text-sobre-nav-suave">
+      Projeto de estudo de Paulo H. M. Rabelo ·
+      <a class="link-rodape !min-h-0 underline underline-offset-2" href={SITE.autorUrl} rel="noopener">PHMR Tech Solutions</a>
+    </p>
+  </div>
+</footer>

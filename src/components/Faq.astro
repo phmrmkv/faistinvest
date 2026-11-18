@@ -1,0 +1,18 @@
+---
+import { perguntas } from '@/data/site';
+---
+
+<!-- #pergunta1..5 mantidos do original; <details> nativo, animado em CSS (docs/transicoes.md) -->
+<div class="mx-auto max-w-2xl" id="perguntasFrequentes">
+  {perguntas.map((q, i) => (
+    <details class="detalhe" id={`pergunta${i + 1}`} open={i === 0}>
+      <summary class="detalhe-titulo">
+        <span>{q.p}</span>
+        <svg class="detalhe-seta" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"></path></svg>
+      </summary>
+      <div class="detalhe-corpo">
+        <p>{q.r}</p>
+      </div>
+    </details>
+  ))}
+</div>

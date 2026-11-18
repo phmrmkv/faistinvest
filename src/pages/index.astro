@@ -1,0 +1,112 @@
+---
+import { Picture } from 'astro:assets';
+import Base from '@/layouts/Base.astro';
+import Carrossel from '@/components/Carrossel.astro';
+import Faq from '@/components/Faq.astro';
+import Titulo from '@/components/Titulo.astro';
+import fundo from '@/assets/bg-quote.jpg';
+import investing from '@/assets/icones/investing.svg?raw';
+import investment from '@/assets/icones/investment.svg?raw';
+import moneyManagement from '@/assets/icones/money-management.svg?raw';
+import modern from '@/assets/icones/modern.svg?raw';
+import returnOfInvestment from '@/assets/icones/return-of-investment.svg?raw';
+import saveMoney from '@/assets/icones/save-money.svg?raw';
+
+const vantagens = [
+  { icone: investing, titulo: 'Dinheiro', texto: 'Acompanhe seus aportes e o saldo da carteira em um só lugar.' },
+  { icone: investment, titulo: 'Mais Dinheiro', texto: 'Veja como os seus investimentos evoluem ao longo do tempo.' },
+  { icone: moneyManagement, titulo: 'Ações', texto: 'Notícias de bolsas como Bovespa, Nasdaq e NY reunidas para você.' },
+  { icone: modern, titulo: 'Viver de Renda', texto: 'Conteúdo para quem quer planejar renda com calma e informação.' },
+  { icone: returnOfInvestment, titulo: 'Relatórios', texto: 'Relatórios simples para entender o que mudou na sua carteira.' },
+  { icone: saveMoney, titulo: 'Controle', texto: 'Defina metas e acompanhe cada uma delas sem planilhas complicadas.' },
+];
+---
+
+<Base
+  title="FastInvest | Notícias e planos para quem investe"
+  description="FastInvest: plataforma de demonstração com notícias da Bovespa, Nasdaq e NY, planos e relatórios para acompanhar seus investimentos. Projeto de estudo, sem serviço real."
+>
+  <!--Carrossel + chamada-->
+  <section class="bg-nav text-sobre-nav" aria-labelledby="plataforma">
+    <div class="grid lg:grid-cols-12">
+      <div class="lg:col-span-7">
+        <Carrossel />
+      </div>
+      <div class="p-6 sm:p-8 lg:col-span-5 lg:self-center">
+        <h1 id="plataforma" class="text-[2.25rem] leading-[1.1] font-semibold tracking-tight sm:text-5xl">
+          A plataforma mais completa para gerenciar suas finanças
+        </h1>
+        <p class="mt-4 text-xl text-sobre-nav-suave">
+          O melhor local para investir é com a FastInvest, mais de 5.000 clientes satisfeitos.
+        </p>
+        <form class="mt-6" method="post" action="#" data-form-demo data-sucesso="Demonstração: nada foi enviado nem guardado. Para continuar o exemplo, abra a página de inscrição.">
+          <label for="heroEmail" class="rotulo">Email</label>
+          <div class="flex flex-col gap-3 sm:flex-row">
+            <input
+              class="campo !border-[#adb5bd] !bg-white !text-[#212529]"
+              type="email"
+              id="heroEmail"
+              name="email"
+              placeholder="Email"
+              required
+              autocomplete="off"
+              aria-describedby="erro-heroEmail"
+            />
+            <button type="submit" class="botao botao-amarelo botao-grande press shrink-0">Inscreva-se</button>
+          </div>
+          <p class="erro-campo !text-[#ff9aa2]" id="erro-heroEmail"></p>
+          <div class="estado-envio !bg-[#212529] !text-white" role="status" tabindex="-1" hidden data-estado></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!--Vantagens-->
+  <section class="py-6 text-center" aria-labelledby="vantagens">
+    <div class="mx-auto max-w-6xl px-4 pb-10 sm:px-6">
+      <Titulo sobre="Tudo de melhor para você" nivel={2}><span id="vantagens">Aproveite as Vantagens</span></Titulo>
+      <ul class="grid gap-x-8 gap-y-10 md:grid-cols-2 xl:grid-cols-3">
+        {vantagens.map((v, i) => (
+          <li data-reveal style={`--i: ${i % 3}`}>
+            <div class="vantagem-icone mx-auto" aria-hidden="true" set:html={v.icone} />
+            <h3 class="mt-3 text-2xl font-semibold">{v.titulo}</h3>
+            <p class="mx-auto mt-2 max-w-xs text-muted-foreground">{v.texto}</p>
+          </li>
+        ))}
+      </ul>
+      <a href="/planos/" class="botao botao-amarelo botao-grande press mt-10">Comprar Plano</a>
+    </div>
+  </section>
+
+  <!--Citação sobre foto-->
+  <section class="citacao px-4 py-16 sm:px-8 md:py-24">
+    <Picture
+      src={fundo}
+      alt=""
+      formats={['avif', 'webp']}
+      fallbackFormat="jpg"
+      widths={[640, 1024, 1600, 2200]}
+      sizes="100vw"
+      quality={55}
+      loading="lazy"
+    />
+    <blockquote class="mx-auto max-w-4xl text-center">
+      <p class="text-3xl leading-tight font-medium italic sm:text-5xl">
+        “Você não precisa ser mais esperto que as outras pessoas, você só precisa ser mais paciente que elas.”
+      </p>
+      <footer class="mt-6 text-lg">Warren Buffett</footer>
+    </blockquote>
+  </section>
+
+  <!--Dúvidas-->
+  <section class="bg-muted pt-6 pb-10" aria-labelledby="duvidas">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <Titulo sobre="Ainda está com dúvidas?" nivel={2}><span id="duvidas">Perguntas Frequentes</span></Titulo>
+      <Faq />
+      <div class="mt-8 text-center">
+        <p class="mb-2 text-sm tracking-wide text-muted-foreground uppercase">Fale conosco para mais dúvidas</p>
+        <a class="botao botao-amarelo botao-grande press" href="/contato/">Entre em Contato</a>
+      </div>
+    </div>
+  </section>
+</Base>

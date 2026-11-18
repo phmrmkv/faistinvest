@@ -1,0 +1,24 @@
+<dialog id="dialogo-login" class="dialogo" aria-labelledby="login-titulo">
+  <div class="flex items-start justify-between gap-4">
+    <h2 id="login-titulo" class="text-xl font-semibold">Entre na Sua Conta</h2>
+    <button type="button" class="press -mt-2 -mr-2 inline-flex size-11 items-center justify-center rounded-full hover:bg-muted" data-fechar-dialogo aria-label="Fechar">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+    </button>
+  </div>
+  <p class="aviso-demo mt-3">Demonstração: este login não existe e nada do que você digitar é enviado ou guardado.</p>
+  <form class="mt-4 space-y-4" method="post" action="#" data-form-demo data-sucesso="Demonstração: não existe conta nem servidor, então ninguém foi autenticado e nada foi enviado.">
+    <div>
+      <label class="rotulo" for="loginEmail">Email</label>
+      <input class="campo" type="email" id="loginEmail" name="email" required autocomplete="off" aria-describedby="erro-loginEmail" />
+      <p class="erro-campo" id="erro-loginEmail"></p>
+    </div>
+    <div>
+      <label class="rotulo" for="loginSenha">Senha</label>
+      <input class="campo" type="password" id="loginSenha" name="senha" required minlength="4" autocomplete="off" aria-describedby="erro-loginSenha" />
+      <p class="erro-campo" id="erro-loginSenha"></p>
+    </div>
+    <button type="submit" class="botao botao-amarelo press">Entrar na Conta</button>
+    <p class="text-sm text-muted-foreground">Esqueceu sua senha? Em um serviço real, a recuperação ficaria aqui.</p>
+    <div class="estado-envio" role="status" tabindex="-1" hidden data-estado></div>
+  </form>
+</dialog>

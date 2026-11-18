@@ -1,0 +1,121 @@
+---
+import Base from '@/layouts/Base.astro';
+import Titulo from '@/components/Titulo.astro';
+
+const estados = [
+  ['AC', 'Acre'], ['AL', 'Alagoas'], ['AP', 'Amapá'], ['AM', 'Amazonas'], ['BA', 'Bahia'], ['CE', 'Ceará'],
+  ['DF', 'Distrito Federal'], ['ES', 'Espírito Santo'], ['GO', 'Goiás'], ['MA', 'Maranhão'], ['MT', 'Mato Grosso'],
+  ['MS', 'Mato Grosso do Sul'], ['MG', 'Minas Gerais'], ['PA', 'Pará'], ['PB', 'Paraíba'], ['PR', 'Paraná'],
+  ['PE', 'Pernambuco'], ['PI', 'Piauí'], ['RJ', 'Rio de Janeiro'], ['RN', 'Rio Grande do Norte'],
+  ['RS', 'Rio Grande do Sul'], ['RO', 'Rondônia'], ['RR', 'Roraima'], ['SC', 'Santa Catarina'], ['SP', 'São Paulo'],
+  ['SE', 'Sergipe'], ['TO', 'Tocantins'], ['EX', 'Estrangeiro'],
+];
+const meses = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, '0'));
+const anoAtual = new Date().getFullYear();
+const anos = Array.from({ length: 11 }, (_, i) => anoAtual + i);
+
+type Campo = { id: string; rotulo: string; tipo?: 'text' | 'email' | 'password'; ph?: string; req?: boolean; cls: string; extra?: Record<string, string | number> };
+const dados: Campo[] = [
+  { id: 'inputNome', rotulo: 'Nome', ph: 'Nome completo', req: true, cls: 'md:col-span-6', extra: { name: 'nome', autocomplete: 'off' } },
+  { id: 'inputCpf', rotulo: 'CPF', ph: '000.000.000-00', req: true, cls: 'md:col-span-6', extra: { name: 'cpf', inputmode: 'numeric', pattern: '\\d{3}\\.?\\d{3}\\.?\\d{3}-?\\d{2}', 'data-erro-padrao': 'Use o formato 000.000.000-00 (só números também vale).', autocomplete: 'off' } },
+  { id: 'inputEmail', rotulo: 'Email', tipo: 'email', ph: 'Seu email', req: true, cls: 'md:col-span-6', extra: { name: 'email', autocomplete: 'off' } },
+  { id: 'inputSenha', rotulo: 'Senha', tipo: 'password', ph: 'Senha de acesso', req: true, cls: 'md:col-span-6', extra: { name: 'senha', minlength: 8, autocomplete: 'off' } },
+  { id: 'inputEndereco', rotulo: 'Endereço', ph: 'Nome da rua', req: true, cls: 'md:col-span-6', extra: { name: 'endereco', autocomplete: 'off' } },
+  { id: 'inputComplemento', rotulo: 'Complemento', ph: 'Ex: Apartamento 1', cls: 'col-span-6 md:col-span-3', extra: { name: 'complemento', autocomplete: 'off' } },
+  { id: 'inputNumero', rotulo: 'Número', ph: 'Número', req: true, cls: 'col-span-6 md:col-span-3', extra: { name: 'numero', inputmode: 'numeric', autocomplete: 'off' } },
+  { id: 'inputCidade', rotulo: 'Cidade', ph: 'Ex: São Paulo', req: true, cls: 'md:col-span-6', extra: { name: 'cidade', autocomplete: 'off' } },
+];
+---
+
+<Base title="Inscreva-se | FastInvest" description="Formulário de inscrição de demonstração da FastInvest. Nada é enviado ou guardado: não digite dados reais.">
+  <section class="mx-auto max-w-6xl px-4 pb-12 sm:px-6" aria-labelledby="inscricao-titulo">
+    <Titulo sobre="Se inscreva em nossa plataforma"><span id="inscricao-titulo">Inscreva-se</span></Titulo>
+
+    <p class="aviso-demo mb-6">
+      <strong>Formulário de demonstração.</strong> Nada que você digitar é enviado, guardado ou cobrado: o site não tem servidor nem pagamento.
+      Não digite dados pessoais ou de cartão reais; use valores inventados.
+    </p>
+    <noscript><p class="aviso-demo mb-6">Sem JavaScript este formulário de demonstração não faz nada.</p></noscript>
+
+    <form method="post" action="#" data-form-demo data-sucesso="Demonstração: a inscrição não foi enviada nem guardada, e nenhum plano foi contratado. Os campos foram limpos.">
+      <div class="grid grid-cols-12 gap-x-4 gap-y-1">
+        {dados.map((c) => (
+          <div class={`col-span-12 ${c.cls}`}>
+            <label class="rotulo" for={c.id}>{c.rotulo}</label>
+            <input class="campo" type={c.tipo ?? 'text'} id={c.id} placeholder={c.ph} required={c.req} aria-describedby={`erro-${c.id}`} {...c.extra} />
+            <p class="erro-campo" id={`erro-${c.id}`}></p>
+          </div>
+        ))}
+        <div class="col-span-6 md:col-span-3">
+          <label class="rotulo" for="inputEstado">Estado</label>
+          <select class="campo" id="inputEstado" name="estado" required aria-describedby="erro-inputEstado">
+            <option value="">Selecione o estado</option>
+            {estados.map(([uf, nome]) => <option value={uf}>{nome}</option>)}
+          </select>
+          <p class="erro-campo" id="erro-inputEstado"></p>
+        </div>
+        <div class="col-span-6 md:col-span-3">
+          <label class="rotulo" for="inputCep">CEP</label>
+          <input class="campo" type="text" id="inputCep" name="cep" placeholder="00000-000" required inputmode="numeric" pattern="\d{5}-?\d{3}" data-erro-padrao="Use o formato 00000-000." autocomplete="off" aria-describedby="erro-inputCep" />
+          <p class="erro-campo" id="erro-inputCep"></p>
+        </div>
+      </div>
+
+      <fieldset class="cartao mt-4 p-4 sm:p-5">
+        <legend class="px-2 text-sm font-semibold tracking-wide uppercase">Forma de pagamento</legend>
+        <div class="mb-4 flex flex-wrap gap-3">
+          <label class="opcao-pagto"><input type="radio" name="pagamento" value="cartao" checked /> Cartão de crédito</label>
+          <label class="opcao-pagto"><input type="radio" name="pagamento" value="boleto" /> Boleto bancário</label>
+        </div>
+
+        <div class="pagamento-painel" data-painel-pagamento="cartao" data-ativo="true">
+          <p class="mb-3 text-sm text-muted-foreground">Cartão de demonstração: não digite um número de cartão real.</p>
+          <div class="grid grid-cols-12 gap-x-4 gap-y-1">
+            <div class="col-span-12 md:col-span-6">
+              <label class="rotulo" for="inputNomeCartao">Nome no cartão</label>
+              <input class="campo" type="text" id="inputNomeCartao" name="nomeCartao" placeholder="Nome impresso no cartão" required autocomplete="off" aria-describedby="erro-inputNomeCartao" />
+              <p class="erro-campo" id="erro-inputNomeCartao"></p>
+            </div>
+            <div class="col-span-6 md:col-span-3">
+              <label class="rotulo" for="inputMes">Mês</label>
+              <select class="campo" id="inputMes" name="mes" required autocomplete="off">
+                {meses.map((m) => <option value={m}>{m}</option>)}
+              </select>
+            </div>
+            <div class="col-span-6 md:col-span-3">
+              <label class="rotulo" for="inputAno">Ano</label>
+              <select class="campo" id="inputAno" name="ano" required autocomplete="off">
+                {anos.map((a) => <option value={a}>{a}</option>)}
+              </select>
+            </div>
+            <div class="col-span-12 md:col-span-6">
+              <label class="rotulo" for="inputNumeroCartao">Número no cartão</label>
+              <input class="campo" type="text" id="inputNumeroCartao" name="numeroCartao" placeholder="0000 0000 0000 0000" required inputmode="numeric" pattern="[0-9 ]{13,19}" data-erro-padrao="Use de 13 a 19 números." autocomplete="off" aria-describedby="erro-inputNumeroCartao" />
+              <p class="erro-campo" id="erro-inputNumeroCartao"></p>
+            </div>
+            <div class="col-span-12 md:col-span-6">
+              <label class="rotulo" for="inputCodigoSeguranca">Código de Segurança</label>
+              <input class="campo" type="text" id="inputCodigoSeguranca" name="codigoSeguranca" placeholder="000" required inputmode="numeric" pattern="\d{3,4}" data-erro-padrao="Use 3 ou 4 números." autocomplete="off" aria-describedby="erro-inputCodigoSeguranca" />
+              <p class="erro-campo" id="erro-inputCodigoSeguranca"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pagamento-painel" data-painel-pagamento="boleto" data-ativo="false">
+          <p class="text-lg">Clique em contratar plano que enviaremos um boleto para o seu e-mail. (Demonstração: nenhum boleto é gerado.)</p>
+        </div>
+      </fieldset>
+
+      <div class="mt-4">
+        <label class="flex min-h-11 items-center gap-3">
+          <input type="checkbox" id="checkBox" name="termos" required class="size-5 accent-[#212529] dark:accent-[#ffc107]" aria-describedby="erro-checkBox" />
+          <span>Concordo com os <a class="link-texto" href="/termos/" target="_blank" rel="noopener">Termos e Condições<span class="sr-only"> (abre em nova aba)</span></a>.</span>
+        </label>
+        <p class="erro-campo" id="erro-checkBox"></p>
+      </div>
+
+      <button type="submit" class="botao botao-amarelo botao-grande press mt-2">Contratar Plano</button>
+      <div class="estado-envio mt-4" role="status" tabindex="-1" hidden data-estado></div>
+    </form>
+  </section>
+</Base>
