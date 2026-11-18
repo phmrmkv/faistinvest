@@ -2,7 +2,7 @@
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
-/* Identidade FaistInvest: tinta azul-petróleo sobre papel frio, e um marca-texto amarelo
+/* Identidade fAIstInvest: tinta azul-petróleo sobre papel frio, e um marca-texto amarelo
    que só aparece onde a IA destaca o que importa. O marca-texto é a única ousadia da página. */
 :root {
   color-scheme: light;
@@ -320,7 +320,7 @@ body { text-rendering: optimizeLegibility; }
 
 /* Rodapé */
 .rodape { border-top: 1px solid var(--border); padding-block: 2.5rem; font-size: 0.9375rem; color: var(--muted-foreground); }
-.rodape .miolo { display: grid; gap: 0.75rem; }
+.rodape .miolo { display: grid; gap: 0.75rem; justify-items: start; }
 .rodape p { max-width: 44rem; line-height: 1.6; }
 
 /* Aviso rápido (toast) */
@@ -372,3 +372,5 @@ dialog.dialogo[open]::backdrop { background: rgb(0 0 0 / 0.55); transition-durat
 .pagina-simples { min-height: 60vh; display: grid; align-content: center; justify-items: start; gap: 1.25rem; }
 
 html:not(.js) .menu-botao { display: none; }
+
+#exemplo { scroll-margin-top: 5rem; }

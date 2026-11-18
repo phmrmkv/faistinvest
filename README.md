@@ -1,6 +1,6 @@
-# FaistInvest
+# fAIstInvest
 
-Landing page de demonstração do **FaistInvest**, um assistente com IA para acompanhar investimentos: a pessoa liga a carteira (em desenvolvimento) e a IA resume as notícias que afetam cada ativo, explica em linguagem simples por que algo subiu ou caiu e avisa quando há um evento importante (resultado, dividendo, mudança de juros). Não recomenda compra nem venda: não é recomendação de investimento.
+Landing page de demonstração do **fAIstInvest**, um assistente com IA para acompanhar investimentos: a pessoa liga a carteira (em desenvolvimento) e a IA resume as notícias que afetam cada ativo, explica em linguagem simples por que algo subiu ou caiu e avisa quando há um evento importante (resultado, dividendo, mudança de juros). Não recomenda compra nem venda: não é recomendação de investimento.
 
 **Produto em desenvolvimento pela PHMR Tech Solutions. Esta página é uma demonstração**: os ativos, as notícias e as conversas exibidos são fictícios, e nenhum botão envia dados.
 

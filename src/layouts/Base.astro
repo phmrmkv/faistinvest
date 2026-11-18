@@ -4,6 +4,7 @@ import '@/styles/global.css';
 import Logo from '@/components/Logo.astro';
 import TemaAlternar from '@/components/TemaAlternar.astro';
 import Dialogos from '@/components/Dialogos.astro';
+import CreditoPHMR from '@/components/CreditoPHMR.astro';
 
 interface Props {
   title: string;
@@ -17,7 +18,7 @@ const imagem = new URL('/og-image.png', Astro.site);
 const links = [
   { href: '/#como-funciona', texto: 'Como funciona' },
   { href: '/#recursos', texto: 'O que ele faz' },
-  { href: '/#perguntas', texto: 'Perguntas' },
+  { href: '/#perguntas', texto: 'Dúvidas' },
 ];
 ---
 
@@ -53,14 +54,14 @@ const links = [
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="pt_BR" />
-    <meta property="og:site_name" content="FaistInvest" />
+    <meta property="og:site_name" content="fAIstInvest" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={imagem} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="FaistInvest: seus investimentos, explicados em português. Projeto em desenvolvimento." />
+    <meta property="og:image:alt" content="fAIstInvest: seus investimentos, explicados. Projeto em desenvolvimento." />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="sitemap" href="/sitemap-index.xml" />
   </head>
@@ -75,7 +76,7 @@ const links = [
     </div>
     <header class="cabecalho" data-cabecalho>
       <div class="miolo">
-        <a href="/" aria-label="FaistInvest, página inicial"><Logo /></a>
+        <a href="/" aria-label="fAIstInvest, página inicial"><Logo /></a>
         <nav class="nav-links" aria-label="Principal">
           {links.map((l) => <a class="link-nav" href={l.href}>{l.texto}</a>)}
         </nav>
@@ -98,11 +99,9 @@ const links = [
     </main>
     <footer class="rodape">
       <div class="miolo">
-        <a href="/" aria-label="FaistInvest, início"><Logo /></a>
+        <a href="/" aria-label="fAIstInvest, início"><Logo /></a>
         <p>Produto em desenvolvimento pela PHMR Tech Solutions. Esta página é uma demonstração.</p>
-        <p>
-          Projeto de Paulo H. M. Rabelo ·{' '}<a class="link-texto" href="https://phmr.com.br" rel="noopener">PHMR Tech Solutions</a>
-        </p>
+        <CreditoPHMR fundo="tema" />
       </div>
     </footer>
     <Dialogos />

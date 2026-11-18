@@ -85,11 +85,16 @@ function menu(abrir: boolean) {
   botaoMenu.setAttribute('aria-label', abrir ? 'Fechar menu' : 'Abrir menu');
 }
 botaoMenu?.addEventListener('click', () => menu(!painelMenu?.hasAttribute('data-aberto')));
-painelMenu?.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && painelMenu?.hasAttribute('data-aberto')) {
     menu(false);
     botaoMenu?.focus();
   }
+});
+document.addEventListener('click', (e) => {
+  if (!painelMenu?.hasAttribute('data-aberto')) return;
+  const alvo = e.target as Node;
+  if (!painelMenu.contains(alvo) && !botaoMenu?.contains(alvo)) menu(false);
 });
 
 document.addEventListener('click', (e) => {
@@ -104,7 +109,7 @@ document.addEventListener('click', (e) => {
   e.preventDefault();
   if (link.closest('#menu-painel')) menu(false);
   history.pushState(null, '', `#${id}`);
-  const margem = parseFloat(getComputedStyle(alvo).scrollMarginTop) || 0;
+  const margem = parseFloat(getComputedStyle(alvo).scrollMarginTop) || parseFloat(getComputedStyle(raiz).scrollPaddingTop) || 0;
   const y = alvo.getBoundingClientRect().top + window.scrollY - margem;
   rolarAte(Math.max(0, y), () => {
     if (!alvo.hasAttribute('tabindex')) alvo.setAttribute('tabindex', '-1');

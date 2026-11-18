@@ -1,4 +1,4 @@
-# FaistInvest: site estático (Astro) na Hostinger
+# fAIstInvest: site estático (Astro) na Hostinger
 Options -Indexes
 DirectoryIndex index.html
 ErrorDocument 404 /404.html

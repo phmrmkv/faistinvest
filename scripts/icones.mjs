@@ -38,8 +38,8 @@ async function extremos(txt) {
   }
   return max - 20;
 }
-const fim1 = await extremos('F');
-const fim3 = await extremos('Fai');
+const fim1 = await extremos('f');
+const fim3 = await extremos('fAI');
 const x0 = 180 + fim1 + 1;
 const x1 = 180 + fim3 + 8;
 
@@ -48,9 +48,9 @@ const og = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" vi
 <rect x="0" y="618" width="1200" height="12" fill="${AMARELO}"/>
 <g transform="translate(80 80) scale(1.5)">${marca(CLARO, INK)}</g>
 <rect x="${x0}" y="112" width="${x1 - x0}" height="62" rx="6" fill="${AMARELO}"/>
-<text x="180" y="160" ${fonte} font-size="64" font-weight="700" fill="${CLARO}" letter-spacing="-1.5">F<tspan fill="${INK}">ai</tspan>stInvest</text>
+<text x="180" y="160" ${fonte} font-size="64" font-weight="700" fill="${CLARO}" letter-spacing="-1.5">f<tspan fill="${INK}">AI</tspan>stInvest</text>
 <text x="80" y="330" ${fonte} font-size="76" font-weight="700" fill="${CLARO}" letter-spacing="-2">Seus investimentos,</text>
-<text x="80" y="418" ${fonte} font-size="76" font-weight="700" fill="${CLARO}" letter-spacing="-2">explicados em português.</text>
+<text x="80" y="418" ${fonte} font-size="76" font-weight="700" fill="${CLARO}" letter-spacing="-2">explicados.</text>
 <text x="80" y="490" ${fonte} font-size="30" fill="#A9A8B4">Assistente com IA para acompanhar a carteira.</text>
 <text x="80" y="535" ${fonte} font-size="30" fill="#A9A8B4">Não é recomendação de investimento.</text>
 <text x="80" y="585" ${fonte} font-size="24" fill="#A9A8B4">Projeto em desenvolvimento. Esta página é uma demonstração.</text>
