@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://faistinvest.libertycondominio.online',
+  site: 'https://faistinvest.phmr.com.br',
   output: 'static',
   trailingSlash: 'always',
   integrations: [sitemap()],

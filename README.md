@@ -16,4 +16,4 @@ Origem: começou como estudo de curso (FastInvest, Digital House).
 
 Astro 7 (estático, TypeScript estrito), Tailwind CSS 4, sem React. Tema claro/escuro, movimento descrito em `docs/transicoes.md`. Diálogos com `<dialog>` nativo.
 
-Site: https://faistinvest.libertycondominio.online. Os arquivos do estudo original ficam em `referencias/original/` (fora do build); o site de estudo anterior está no histórico do Git.
+Site: https://faistinvest.phmr.com.br. Os arquivos do estudo original ficam em `referencias/original/` (fora do build); o site de estudo anterior está no histórico do Git.
